@@ -137,12 +137,15 @@ class Command(BaseCommand):
                 regulation_files.extend(layer_files)
 
         # Get diff JSON
-        logger.info("getting diff files for regulation {}...".format(regulation))
-        for dirname, subdirs, files in os.walk(os.path.join(stub_base, 'diff', regulation)):
-            # For diffs, each regulation directory has a notice directory
-            # with json files corrosponding to each other notice.
-            diff_files = [os.path.join(dirname, f) for f in files]
-            regulation_files.extend(diff_files)
+        if regulation == '1026':
+            logger.info('Skipping diff import for Regulation Z')
+        else:
+            logger.info("getting diff files for regulation {}...".format(regulation))
+            for dirname, subdirs, files in os.walk(os.path.join(stub_base, 'diff', regulation)):
+                # For diffs, each regulation directory has a notice directory
+                # with json files corrosponding to each other notice.
+                diff_files = [os.path.join(dirname, f) for f in files]
+                regulation_files.extend(diff_files)
 
         return regulation_files
 
